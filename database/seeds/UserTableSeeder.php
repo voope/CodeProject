@@ -11,7 +11,7 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        \CodeProject\User::truncate();
-        factory(\CodeProject\User::class, 10)->create();
+        \CodeProject\Entities\User::truncate();
+        factory(\CodeProject\Entities\User::class, 10)->create();
     }
 }

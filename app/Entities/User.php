@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeProject;
+namespace CodeProject\Entities;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -32,4 +32,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+
+    public function projects()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
 }
