@@ -9,13 +9,7 @@ use Illuminate\Http\Request;
 class ProjectController extends Controller
 {
 
-    /**
-     * @var ProjectRepository
-     */
     private $repository;
-    /**
-     * @var ProjectService
-     */
     private $service;
 
     public function __construct(ProjectRepository $repository, ProjectService $service){
@@ -23,11 +17,6 @@ class ProjectController extends Controller
         $this->service = $service;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
         return $this->service->all();
@@ -35,7 +24,7 @@ class ProjectController extends Controller
 
     public function show($id)
     {
-        return $this->service->show($id);
+        return $this->service->find($id);
     }
 
     public function store(Request $request)
@@ -50,28 +39,7 @@ class ProjectController extends Controller
 
     public function destroy($id)
     {
-        return $this->service->destroy($id);
-
-
-//        public function destroy($id)
-//    {
-//        try{
-//            $client = $this->search($id);
-//
-//            if( $client['success'] ){
-//
-//                return ["success" => $this->repository->delete($id)];
-//            }
-//
-//            return $client;
-//
-//        }catch (\Exception $e) {
-//            return [
-//                'success' => 'false',
-//                'message' => "Could not delete the Client {$id}"
-//            ];
-//        }
-//    }
+        return $this->service->delete($id);
 
     }
 }

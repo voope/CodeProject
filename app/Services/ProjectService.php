@@ -23,23 +23,37 @@ class ProjectService
 
     public function all()
     {
-        return $this->repository->with(['owner', 'client'])->all();
+        try {
+            return $this->repository->with(['owner', 'client'])->all();
+        } catch (\Exception $e) {
+            return [
+                "error" => true,
+                "message" => $e->getMessage()
+            ];
+        }
     }
 
-    public function show($id)
+    public function find($id)
     {
-        return $this->repository->with(['owner', 'client'])->find($id);
+        try {
+            return $this->repository->with(['owner', 'client'])->find($id);
+        } catch (\Exception $e) {
+            return [
+                "error" => true,
+                "message" => $e->getMessage()
+            ];
+        }
     }
 
     public function create(array $data)
     {
 
-        try{
+        try {
             $this->validator->with($data)->passesOrFail();
 
             return $this->repository->create($data);
 
-        }catch (ValidatorException $e){
+        } catch (ValidatorException $e) {
             return [
                 'error' => true,
                 'message' => $e->getMessageBag()
@@ -51,12 +65,12 @@ class ProjectService
     public function update(array $data, $id)
     {
 
-        try{
+        try {
             $this->validator->with($data)->passesOrFail();
 
             return $this->repository->update($data, $id);
 
-        }catch (ValidatorException $e){
+        } catch (ValidatorException $e) {
             return [
                 'error' => true,
                 'message' => $e->getMessageBag()
@@ -64,9 +78,19 @@ class ProjectService
         }
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
-        return $this->repository->delete($id);
+        try {
+            $this->repository->delete($id);
+
+            return ['success' => true];
+
+        } catch (\Exception $e) {
+            return [
+                "error" => true,
+                "message" => $e->getMessage()
+            ];
+        }
 
     }
 

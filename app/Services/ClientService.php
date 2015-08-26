@@ -27,28 +27,47 @@ class ClientService
     }
 
 
-    public function index()
+    public function all()
     {
-        return $this->repository->all();
+        try {
+            return $this->repository->all();
+        } catch (\Exception $e) {
+            return [
+                "error" => true,
+                "message" => $e->getMessage()
+            ];
+        }
     }
 
-    /**
-     * @param array $data
-     * @return array|mixed
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
-     */
+    public function find($id)
+    {
+        try {
+            return $this->repository->find($id);
+        } catch (\Exception $e) {
+            return [
+                "error" => true,
+                "message" => $e->getMessage()
+            ];
+        }
+    }
+
     public function create(array $data)
     {
 
-        try{
+        try {
             $this->validator->with($data)->passesOrFail();
 
             return $this->repository->create($data);
 
-        }catch (ValidatorException $e){
+        } catch (ValidatorException $e) {
             return [
                 'error' => true,
                 'message' => $e->getMessageBag()
+            ];
+        } catch (\Exception $e) {
+            return [
+                "error" => true,
+                "message" => $e->getMessage()
             ];
         }
 
@@ -57,28 +76,41 @@ class ClientService
     public function update(array $data, $id)
     {
 
-        try{
+        try {
             $this->validator->with($data)->passesOrFail();
 
             return $this->repository->update($data, $id);
 
-        }catch (ValidatorException $e){
+        } catch (ValidatorException $e) {
             return [
                 'error' => true,
                 'message' => $e->getMessageBag()
             ];
+        } catch (\Exception $e) {
+            return [
+                "error" => true,
+                "message" => $e->getMessage()
+            ];
         }
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
-        return $this->repository->delete($id);
+        try {
+            $this->repository->find($id)->projects()->delete();
+            $this->repository->delete($id);
+
+            return ['success' => true];
+
+        } catch (\Exception $e) {
+            return [
+                "error" => true,
+                "message" => $e->getMessage()
+            ];
+        }
 
     }
 
-    public function show($id)
-    {
-        return $this->repository->find($id);
-    }
+
 
 }
