@@ -3,18 +3,18 @@
 namespace CodeProject\Services;
 
 
-use CodeProject\Repositories\ClientRepository;
-use CodeProject\Validators\ClientValidator;
+use CodeProject\Repositories\ProjectNoteRepository;
+use CodeProject\Validators\ProjectNoteValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 
-class ClientService
+class ProjectNoteService
 {
 
     protected $repository;
     protected $validator;
 
-    public function __construct(ClientRepository $repository, ClientValidator $validator)
+    public function __construct(ProjectNoteRepository $repository, ProjectNoteValidator $validator)
     {
         $this->repository = $repository;
         $this->validator = $validator;
@@ -24,7 +24,7 @@ class ClientService
     public function all()
     {
         try {
-            return $this->repository->all();
+            return $this->repository->with(['owner', 'client'])->all();
         } catch (\Exception $e) {
             return [
                 "error" => true,
@@ -36,7 +36,7 @@ class ClientService
     public function find($id)
     {
         try {
-            return $this->repository->find($id);
+            return $this->repository->with(['owner', 'client'])->find($id);
         } catch (\Exception $e) {
             return [
                 "error" => true,
@@ -58,11 +58,6 @@ class ClientService
                 'error' => true,
                 'message' => $e->getMessageBag()
             ];
-        } catch (\Exception $e) {
-            return [
-                "error" => true,
-                "message" => $e->getMessage()
-            ];
         }
 
     }
@@ -80,18 +75,12 @@ class ClientService
                 'error' => true,
                 'message' => $e->getMessageBag()
             ];
-        } catch (\Exception $e) {
-            return [
-                "error" => true,
-                "message" => $e->getMessage()
-            ];
         }
     }
 
     public function delete($id)
     {
         try {
-            $this->repository->find($id)->projects()->delete();
             $this->repository->delete($id);
 
             return ['success' => true];

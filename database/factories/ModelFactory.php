@@ -36,10 +36,36 @@ $factory->define(CodeProject\Entities\Project::class, function (Faker\Generator 
     return [
         'owner_id' => $faker->numberBetween(1, 10),
         'client_id' => $faker->numberBetween(1, 10),
-        'name' => $faker->name,
+        'name' => $faker->word,
         'description' => $faker->sentence,
-        'progress' => $faker->numberBetween(0, 100),
-        'status' => $faker->numberBetween(1, 2),
+        'progress' => $faker->numberBetween(1, 100),
+        'status' => $faker->numberBetween(1, 3),
         'due_date' => $faker->date(),
+    ];
+});
+
+
+$factory->define(CodeProject\Entities\ProjectNote::class, function (Faker\Generator $faker) {
+    return [
+        'project_id' => $faker->numberBetween(1, 10),
+        'title' => $faker->word,
+        'note' => $faker->paragraph,
+    ];
+});
+
+$factory->define(CodeProject\Entities\ProjectTask::class, function (Faker\Generator $faker) {
+    return [
+        'project_id' => rand(1,10),
+        'name' => $faker->word,
+        'start_date' => $faker->dateTime('now'),
+        'due_date' => $faker->dateTime('now'),
+        'status' => rand(1,3)
+    ];
+});
+
+$factory->define(CodeProject\Entities\ProjectMembers::class, function (Faker\Generator $faker) {
+    return [
+        'project_id' => rand(1,10),
+        'user_id' => rand(1,10)
     ];
 });

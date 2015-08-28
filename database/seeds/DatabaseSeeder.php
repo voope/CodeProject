@@ -18,8 +18,11 @@ class DatabaseSeeder extends Seeder
         $this->call(UserTableSeeder::class);
         $this->call(ClientTableSeeder::class);
         $this->call(ProjectTableSeeder::class);
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $this->call(ProjectNoteTableSeeder::class);
+        $this->call(ProjectMemberTableSeeder::class);
+        $this->call(ProjectTaskTableSeeder::class);
 
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         Model::reguard();
     }
 }
