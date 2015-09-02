@@ -21,10 +21,11 @@ class ProjectNoteService
     }
 
 
-    public function all()
+    public function all($id)
     {
         try {
-            return $this->repository->with(['owner', 'client'])->all();
+            //return $this->repository->with(['owner', 'client'])->all();
+            return $this->repository->findWhere(['project_id' => $id]);
         } catch (\Exception $e) {
             return [
                 "error" => true,
@@ -33,10 +34,11 @@ class ProjectNoteService
         }
     }
 
-    public function find($id)
+    public function find($id, $noteId)
     {
         try {
-            return $this->repository->with(['owner', 'client'])->find($id);
+            //return $this->repository->with(['owner', 'client'])->find($id);
+            return $this->repository->findWhere(['project_id' => $id, 'id' => $noteId]);
         } catch (\Exception $e) {
             return [
                 "error" => true,

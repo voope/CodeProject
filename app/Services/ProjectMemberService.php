@@ -5,23 +5,23 @@ namespace CodeProject\Services;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
 use Illuminate\Http\Exception;
-use CodeProject\Repositories\ProjectMembersRepository;
-use CodeProject\Validators\ProjectMembersValidator;
+use CodeProject\Repositories\ProjectMemberRepository;
+use CodeProject\Validators\ProjectMemberValidator;
 use DB;
 
-class ProjectMembersService
+class ProjectMemberService
 {
 
     protected $repository;
     protected $validator;
 
-    public function __construct(ProjectMembersRepository $repository, ProjectMembersValidator $validator)
+    public function __construct(ProjectMemberRepository $repository, ProjectMemberValidator $validator)
     {
         $this->repository = $repository;
         $this->validator = $validator;
     }
 
-    public function all($id)
+    public function members($id)
     {
         try {
             return $this->repository->findWhere(['project_id'=>$id]);

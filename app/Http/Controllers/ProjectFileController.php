@@ -7,53 +7,45 @@ use CodeProject\Services\ProjectService;
 use Illuminate\Http\Request;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
-class ProjectController extends Controller
+
+class ProjectFileController extends Controller
 {
 
-    private $repository;
     private $service;
+    private $repository;
 
     public function __construct(ProjectRepository $repository, ProjectService $service){
-        $this->repository = $repository;
         $this->service = $service;
-    }
-
-    public function index()
-    {
-        return $this->service->all();
-    }
-
-    public function show($id)
-    {
-        if($this->checkProjectPermissions($id)==false){
-            return ['error' => 'Access Forbidden'];
-        }
-
-        return $this->service->find($id);
+        $this->repository = $repository;
     }
 
     public function store(Request $request)
     {
-        return $this->service->create($request->all());
-    }
-
-    public function update(Request $request, $id)
-    {
-        if($this->checkProjectPermissions($id)==false){
+        if($this->checkProjectPermissions($request->project_id)==false){
             return ['error' => 'Access Forbidden'];
         }
 
-        return $this->service->update($request->all(), $id);
+        $file = $request->file('file');
+
+        $data = [
+            'file' => $file,
+            'name' => $request->name,
+            'description' => $request->description,
+            'project_id' => $request->project_id
+        ];
+
+        return $this->service->createFile($data);
+
     }
 
     public function destroy($id)
     {
-        if($this->checkProjectPermissions($id)==false){
+        if($this->checkProjectPermissions($id) == false){
             return ['error' => 'Access Forbidden'];
         }
-
-        return $this->service->delete($id);
+        return $this->service->deleteFile($id);
     }
+
 
     public function checkProjectOwner($projectId)
     {
@@ -76,4 +68,5 @@ class ProjectController extends Controller
 
         return false;
     }
+
 }

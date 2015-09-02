@@ -47,7 +47,7 @@ $factory->define(CodeProject\Entities\Project::class, function (Faker\Generator 
 
 $factory->define(CodeProject\Entities\ProjectNote::class, function (Faker\Generator $faker) {
     return [
-        'project_id' => $faker->numberBetween(1, 10),
+        'project_id' => $faker->numberBetween(1, 30),
         'title' => $faker->word,
         'note' => $faker->paragraph,
     ];
@@ -55,7 +55,7 @@ $factory->define(CodeProject\Entities\ProjectNote::class, function (Faker\Genera
 
 $factory->define(CodeProject\Entities\ProjectTask::class, function (Faker\Generator $faker) {
     return [
-        'project_id' => rand(1,10),
+        'project_id' => rand(1,30),
         'name' => $faker->word,
         'start_date' => $faker->dateTime('now'),
         'due_date' => $faker->dateTime('now'),
@@ -63,9 +63,9 @@ $factory->define(CodeProject\Entities\ProjectTask::class, function (Faker\Genera
     ];
 });
 
-$factory->define(CodeProject\Entities\ProjectMembers::class, function (Faker\Generator $faker) {
+$factory->define(CodeProject\Entities\ProjectMember::class, function (Faker\Generator $faker) {
     return [
-        'project_id' => rand(1,10),
+        'project_id' => rand(1,30),
         'user_id' => rand(1,10)
     ];
 });

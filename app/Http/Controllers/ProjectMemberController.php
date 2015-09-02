@@ -3,61 +3,51 @@
 namespace CodeProject\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use CodeProject\Http\Requests;
 use CodeProject\Repositories\ProjectRepository;
-use CodeProject\Services\ProjectTaskService;
+use CodeProject\Services\ProjectMemberService;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
-class ProjectTaskController extends Controller
+
+class ProjectMemberController extends Controller
 {
 
-    private $repository;
     private $service;
+    private $repository;
 
-    public function __construct(ProjectRepository $repository, ProjectTaskService $service)
+    public function __Construct(ProjectRepository $repository, ProjectMemberService $service)
     {
-        $this->repository = $repository;
         $this->service = $service;
+        $this->repository = $repository;
     }
 
-    public function index($projectId)
+    public function members($id)
     {
-        if($this->checkProjectPermissions($projectId)==false){
+        if($this->checkProjectPermissions($id)==false){
             return ['error' => 'Access Forbidden'];
         }
-        return $this->service->all($projectId);
+        return $this->service->members($id);
     }
 
-    public function store(Request $request)
+    public function addMember(Request $request)
     {
         if($this->checkProjectPermissions($request->project_id)==false){
             return ['error' => 'Access Forbidden'];
         }
-        return $this->service->create($request->all());
+        return $this->service->addMember($request->all());
     }
 
-    public function show($projectId, $id)
+    public function isMember($id,$membersId)
     {
-        if($this->checkProjectPermissions($projectId)==false){
-            return ['error' => 'Access Forbidden'];
-        }
-        return $this->service->find($projectId, $id);
+        return $this->service->isMember($id,$membersId);
     }
 
-    public function update(Request $request, $projectId, $id)
+    public function removeMember($id, $membersId)
     {
-        if($this->checkProjectPermissions($projectId)==false){
+        if($this->checkProjectPermissions($id)==false){
             return ['error' => 'Access Forbidden'];
         }
-        return $this->service->update($request->all(), $id);
-    }
-
-    public function destroy($projectId, $id)
-    {
-        if($this->checkProjectPermissions($projectId)==false){
-            return ['error' => 'Access Forbidden'];
-        }
-        return $this->service->delete($id);
+        return $this->service->removeMember($membersId);
     }
 
     private function checkProjectOwner($projectId)
@@ -82,4 +72,6 @@ class ProjectTaskController extends Controller
 
         return false;
     }
+
+
 }

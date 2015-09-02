@@ -34,14 +34,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $hidden = ['password', 'remember_token'];
 
 
+//    public function projects()
+//    {
+//        return $this->belongsToMany(User::class);
+//    }
+
     public function projects()
     {
-        return $this->belongsToMany(User::class);
-    }
-
-    public function members()
-    {
-        return $this->hasMany(ProjectMembers::class);
+        return $this->belongsToMany(Project::class, 'project_members');
     }
 
 }

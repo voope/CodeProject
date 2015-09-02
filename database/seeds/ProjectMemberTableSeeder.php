@@ -11,7 +11,7 @@ class ProjectMemberTableSeeder extends Seeder
      */
     public function run()
     {
-        \CodeProject\Entities\ProjectMembers::truncate();
-        factory(\CodeProject\Entities\ProjectMembers::class, 10)->create();
+        \CodeProject\Entities\ProjectMember::truncate();
+        factory(\CodeProject\Entities\ProjectMember::class,  50)->create();
     }
 }

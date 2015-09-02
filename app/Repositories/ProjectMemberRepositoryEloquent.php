@@ -3,13 +3,13 @@
 namespace CodeProject\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
-use CodeProject\Entities\ProjectMembers;
+use CodeProject\Entities\ProjectMember;
 
 /**
  * Class ProjectMembersRepositoryEloquent
  * @package namespace project\Repositories;
  */
-class ProjectMembersRepositoryEloquent extends BaseRepository implements ProjectMembersRepository
+class ProjectMemberRepositoryEloquent extends BaseRepository implements ProjectMemberRepository
 {
     /**
      * Specify Model class name
@@ -18,7 +18,7 @@ class ProjectMembersRepositoryEloquent extends BaseRepository implements Project
      */
     public function model()
     {
-        return ProjectMembers::class;
+        return ProjectMember::class;
     }
 
 
