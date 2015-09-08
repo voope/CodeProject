@@ -140,6 +140,7 @@ return [
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
         LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
         LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
+        Bestmomo\Scafold\ScafoldServiceProvider::class,
 
         /*
          * Application Service Providers...

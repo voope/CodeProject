@@ -107,27 +107,6 @@ class ProjectService
 
     }
 
-//    public function createFile(array $data)
-//    {
-//        try {
-//
-//            $this->validator_file->with($data)->passesOrFail();
-//
-//            $project = $this->repository->skipPresenter()->find($data['project_id']);
-//            $projectFile = $project->files()->create($data);
-//
-//            $this->storage->put($projectFile->id.'.'.$data['extension'], $this->filesystem->get($data['file']));
-//
-//            return ['success' => true];
-//
-//        } catch (\Exception $e) {
-//            return [
-//                "error" => true,
-//                "message" => $e->getMessage()
-//            ];
-//        }
-//    }
-
     public function createFile(array $data)
     {
         try {

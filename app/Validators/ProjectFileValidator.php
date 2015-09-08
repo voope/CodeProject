@@ -12,6 +12,7 @@ class ProjectFileValidator extends LaravelValidator
         'project_id' => 'required|integer',
         'name' => 'required|max:255',
         'extension' => 'required|max:255',
+        'description' => 'required',
     ];
 
 }

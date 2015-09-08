@@ -62,9 +62,12 @@ class ProjectFileController extends Controller
     }
 
     public function checkProjectPermissions($projectId){
-        if($this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId)){
-            return true;
+        if($projectId != ""){
+            if($this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId)){
+                return true;
+            }
         }
+
 
         return false;
     }
