@@ -2,74 +2,74 @@
 
 namespace CodeProject\Http\Controllers;
 
-use CodeProject\Repositories\ProjectRepository;
-use CodeProject\Services\ProjectService;
 use Illuminate\Http\Request;
-use LucaDegasperi\OAuth2Server\Facades\Authorizer;
-
+use CodeProject\Services\ProjectService;
 
 class ProjectFileController extends Controller
 {
 
-    private $service;
+    /**
+     * @var ProjectFileRepository
+     */
     private $repository;
 
-    public function __construct(ProjectRepository $repository, ProjectService $service){
+    /**
+     * @var ProjectService
+     */
+    private $service;
+
+    /**
+     * @param ProjectService $service
+     */
+    public function __construct(ProjectService $service)
+    {
+
         $this->service = $service;
-        $this->repository = $repository;
     }
 
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
     public function store(Request $request)
     {
-        if($this->checkProjectPermissions($request->project_id)==false){
-            return ['error' => 'Access Forbidden'];
-        }
+
+        //dd($request->name);
 
         $file = $request->file('file');
+        //$extension = $file->getClientOriginalExtension();
 
         $data = [
-            'file' => $file,
+            'file' => $request->file,
+            //'extension' => $extension,
             'name' => $request->name,
+            'project_id' => $request->project_id,
             'description' => $request->description,
-            'project_id' => $request->project_id
         ];
 
-        return $this->service->createFile($data);
+        //dd($data);
 
+        // ProjectService
+        return $this->service->createFile($data);
     }
 
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
     public function destroy($id)
     {
-        if($this->checkProjectPermissions($id) == false){
+        if($this->service->checkProjectPermissions($id) == false){
             return ['error' => 'Access Forbidden'];
         }
+
         return $this->service->deleteFile($id);
-    }
-
-
-    public function checkProjectOwner($projectId)
-    {
-        $userId = Authorizer::getResourceOwnerId();
-
-        return $this->repository->skipPresenter()->isOwner($projectId, $userId);
-    }
-
-    public function checkProjectMember($projectId)
-    {
-        $userId = Authorizer::getResourceOwnerId();
-
-        return $this->repository->skipPresenter()->hasMember($projectId, $userId);
-    }
-
-    public function checkProjectPermissions($projectId){
-        if($projectId != ""){
-            if($this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId)){
-                return true;
-            }
-        }
-
-
-        return false;
     }
 
 }

@@ -2,10 +2,16 @@
 
 namespace CodeProject\Repositories;
 
-use CodeProject\Entities\Project;
-use CodeProject\Presenters\ProjectPresenter;
 use Prettus\Repository\Eloquent\BaseRepository;
+use Prettus\Repository\Criteria\RequestCriteria;
+use CodeProject\Entities\Project;
 
+use CodeProject\Presenters\ProjectPresenter;
+
+/**
+ * Class ProjectRepositoryEloquent
+ * @package namespace CodeProject\Repositories;
+ */
 class ProjectRepositoryEloquent extends BaseRepository implements ProjectRepository
 {
     /**
@@ -18,20 +24,36 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
         return Project::class;
     }
 
-    public function isOwner($projectId, $userId){
+    /**
+     * Boot up the repository, pushing criteria
+     */
+    public function boot()
+    {
+        $this->pushCriteria( app(RequestCriteria::class) );
+    }
 
-        if(count($this->findWhere(['id'=>$projectId, 'owner_id' => $userId]))){
+
+    public function isOwner($projectId, $userId)
+    {
+        //$result = $this->findWhere(['id' => $projectId, 'owner_id' => $userId]);
+        $result = $this->skipPresenter()->findWhere(['id' => $projectId, 'owner_id' => $userId]);
+
+        //dd($result);
+        //dd(count($result));
+
+        if(count($result)){
             return true;
         }
 
         return false;
+
     }
 
-    public function hasMember($projectId, $memberId){
-
+    public function hasMember($projectId, $memberId)
+    {
         $project = $this->find($projectId);
 
-        foreach($project->members as $member){
+        foreach ($project->members as $member) {
             if($member->id == $memberId){
                 return true;
             }
@@ -44,5 +66,4 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
     {
         return ProjectPresenter::class;
     }
-
 }

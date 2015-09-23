@@ -6,6 +6,9 @@
     "Paulo Rodrigues <paulo@voope.com.br>"
   ],
   "description": "frontend gerenciador",
+  "moduleType": [
+    "amd"
+  ],
   "license": "MIT",
   "ignore": [
     "**/.*",

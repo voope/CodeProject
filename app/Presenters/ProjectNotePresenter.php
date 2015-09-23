@@ -1,16 +1,14 @@
 <?php
-
 namespace CodeProject\Presenters;
 
-use CodeProject\Transformers\ProjectNoteTransformer;
 use Prettus\Repository\Presenter\FractalPresenter;
+use CodeProject\Transformers\ProjectNoteTransformer;
 
 class ProjectNotePresenter extends FractalPresenter
 {
 
-    public function getTransformer()
-    {
-        return new ProjectNoteTransformer();
-    }
-
+	public function getTransformer()
+	{
+		return new ProjectNoteTransformer();
+	}
 }

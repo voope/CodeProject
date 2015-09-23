@@ -2,23 +2,22 @@
 
 namespace CodeProject\Transformers;
 
-use CodeProject\Entities\ProjectTask;
 use League\Fractal\TransformerAbstract;
+
+use CodeProject\Entities\ProjectTask;
 
 class ProjectTaskTransformer extends TransformerAbstract
 {
 
-    public function transform(ProjectTask $task)
-    {
-        return [
-            'task_id' => $task->id,
-            'project_id' => $task->project_id,
-            'name' => $task->name,
-            'start_date' => $task->start_date,
-            'due_date' => $task->due_date,
-            'status' => $task->status
-        ];
-    }
-
-
+	public function transform(ProjectTask $data)
+	{
+		return [
+			'id' => $data->id,
+			'project_id' => $data->project_id,
+			'name' => $data->name,
+			'start_date' => $data->start_date,
+			'due_date' => $data->due_date,
+			'status' => $data->status,
+		];
+	}
 }
